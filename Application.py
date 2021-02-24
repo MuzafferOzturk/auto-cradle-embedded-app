@@ -11,16 +11,16 @@ def index():
     return 'Cradle App'
 
 
-@app.route('/start')
+@app.route('/start', methods=['POST'])
 def start():
     engine.start()
-    return status()
+    return 'OK', 200
 
 
-@app.route('/stop')
+@app.route('/stop', methods=['POST'])
 def stop():
     engine.stop()
-    return status()
+    return 'OK', 200
 
 
 @app.route('/status')
