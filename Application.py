@@ -1,5 +1,5 @@
-from flask import Flask
-
+from flask import Flask, request
+from Enums import EngineStatusEnum
 from DCEngine import DCEngine
 
 engine = DCEngine()
@@ -13,8 +13,11 @@ def index():
 
 @app.route('/start', methods=['POST'])
 def start():
-    engine.start()
-    return 'OK', 200
+    if status() == EngineStatusEnum.START.name:
+        engine.start()
+        return 'OK', 200
+    else:
+        return 'Already started', 500
 
 
 @app.route('/stop', methods=['POST'])
@@ -28,5 +31,18 @@ def status():
     return engine.getstatus()
 
 
+@app.route('/setSpeed', methods=['POST'])
+def set_speed():
+    if status() == EngineStatusEnum.START.name:
+        speed = int(request.args.get('speed'))
+        if speed >= 70:
+            engine.setSpeed(speed)
+            return 'OK', 200
+        else:
+            return 'Speed Low', 500
+    else:
+        return 'Before Start', 500
+
+
 if __name__ == '__main__':
-    app.run(port=9000)
+    app.run(port=9000, host='192.168.1.6')
