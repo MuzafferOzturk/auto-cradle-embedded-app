@@ -1,3 +1,4 @@
+from subprocess import call
 from flask import Flask, request
 from Enums import EngineStatusEnum
 from DCEngine import DCEngine
@@ -42,6 +43,11 @@ def set_speed():
             return 'Speed Low', 500
     else:
         return 'Before Start', 500
+
+
+@app.route("/shutdown", methods=['POST'])
+def shutdown():
+    call("sudo shutdown -h now", shell=True)
 
 
 if __name__ == '__main__':

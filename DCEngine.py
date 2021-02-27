@@ -30,7 +30,8 @@ class DCEngine(Engine):
 
     def stop(self) -> None:
         super().stop()
-        GPIO.cleanup()
+        GPIO.output(self.__port_in1, GPIO.LOW)
+        GPIO.output(self.__port_in2, GPIO.LOW)
 
     def getstatus(self) -> object:
         return super().getstatus()
